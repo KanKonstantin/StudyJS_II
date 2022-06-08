@@ -5,10 +5,8 @@ const goods = [
   { title: 'Shoes', price: 250 },
 ];
 class cart {
-
 }
 class cartElement {
-
 }
 
 class GoodsItem {
