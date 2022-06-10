@@ -9,33 +9,18 @@ class cart {
 class cartElement {
 }
 
-class GoodsItem {
-  constructor({ title, price }) {
-    this.title = title;
-    this.price = price;
+const renderGoodsItem = (title, price) => {
+    return `<div class="goods-item"><h3>$(title)</h3><p>$(price)</p></div>`;
+  };
+
+const renderGoodsList = (list) => {
+  let goodsList = list.map(items => renderGoodsItem(item.title, item.price));
+    document.querySelector('.goods-list').innerHTML = goodsList;
   }
-  render() {
-    return `
-    <div class="goods-item">
-      <h3>${this.title}</h3>
-      <p>${this.price}</p>
-    </div>
-  `;
-  }
-}
-class GoodsList {
-  items = [];
-  fetchGoods() {
-    this.items = goods;
-  }
-  render() {
-    const goods = this.items.map(item => {
-      const goodItem = new GoodsItem(item);
-      return goodItem.render()}).join('');
+
+  renderGoodsList;
+
   
-    document.querySelector('.goods-list').innerHTML = goods;
-  }
-}
 class Hamburger {
   constructor(size, stuffing) {  }
   addTopping(topping) {} // Добавить добавку 
