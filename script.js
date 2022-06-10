@@ -58,18 +58,3 @@ const bigHamburger = new BigHamburger();
 const goodsList = new GoodsList();
 goodsList.fetchGoods();
 goodsList.render();
-
-
-// const renderGoodsItem =  ({title = '', price = 0}) => `
-//     <div class="goods-item">
-//       <h3>${title}</h3>
-//       <p>${price}</p>
-//     </div>
-// `;
-
-// const renderGoodsList = (list = []) => {
-//   let goodsList = list.map(item => renderGoodsItem(item));
-//   document.querySelector('.goods-list').innerHTML = goodsList.join('');
-// }
-
-// renderGoodsList(goods);
