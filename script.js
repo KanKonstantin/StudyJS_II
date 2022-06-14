@@ -4,42 +4,58 @@ const goods = [
   { title: 'Jacket', price: 350 },
   { title: 'Shoes', price: 250 },
 ];
-class cart {
-}
-class cartElement {
-}
 
-const renderGoodsItem = (title, price) => {
-    return `<div class="goods-item"><h3>$(title)</h3><p>$(price)</p></div>`;
-  };
+const GET_GOODS_ITEMS = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json'
+const GET_BASKET_GOODS_ITEMS = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/getBasket.json'
 
-const renderGoodsList = (list) => {
-  let goodsList = list.map(items => renderGoodsItem(item.title, item.price));
-    document.querySelector('.goods-list').innerHTML = goodsList;
+function service(url, callback) {
+  xhr = new XMLHttpRequest();
+  xhr.open('GET', url);
+  xhr.send();
+  xhr.onload = () => {
+    callback(JSON.parse(xhr.response))
   }
+}
 
-  renderGoodsList;
-
-  
-class Hamburger {
-  constructor(size, stuffing) {  }
-  addTopping(topping) {} // Добавить добавку 
-  removeTopping(topping) {} // Убрать добавку 
-  getToppings(topping) {} // Получить список добавок 
-  getSize() {} // Узнать размер гамбургера 
-  getStuffing() {} // Узнать начинку гамбургера 
-  calculatePrice() {} // Узнать цену 
-  calculateCalories() {} // Узнать калорийность 
+class GoodsItem {
+    constructor({product_name, price}) {
+    this.pruduct_name = product_name;
+    this.price = price;
   }
+  render() {
+    return `
+    <div class="goods-item">
+      <h3>${this.product_name}</h3>
+      <p>${this.price}</p>
+    </div>
+  `;
+  }
+}
 
-class SmallHamburger extends Hamburger{
-  price = 50;
-};
-class BigHamburger extends Hamburger{
-  price = 100;
-};
-const smallHamburger = new SmallHamburger();
-const bigHamburger = new BigHamburger();
+class GoodsList {
+  item = [];
+  fetchGoods(callback) {
+    service(GET_GOODS_ITEMS, (data) => {
+      this.items = data;
+      callback()
+    });
+  }
+  calculatePrice() {
+    return this.items.reduce((prev, { price }) => {
+      return prev + price;
+    }, 0)
+  }
+  render() {
+  const goods = this.items.map(item => {
+    const goodItem = new GoodsItem(item);
+    return goodItem.render()
+  }).join('');
+
+    document.querySelector('.goods-list').innerHTML = goods;
+  }
+}
+
 const goodsList = new GoodsList();
-goodsList.fetchGoods();
-goodsList.render();
+goodsList.fetchGoods(() => {
+  goodsList.render();
+});
